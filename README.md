@@ -8,5 +8,5 @@
 #
 
 使用方法：  
-1.将该代码和所有apk文件放在同一目录  
-         2. python3 Analysis_perm.py  
+1. 将该代码和所有apk文件放在同一目录  
+2. python3 Analysis_perm.py  
