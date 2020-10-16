@@ -75,7 +75,7 @@ def Analysis_perm():
                     print(unclaim)
 
 if __name__ == '__main__':
-    #unpackage()
+    unpackage()
 
     if not os.path.exists('manifest'):
         os.mkdir('manifest')
