@@ -14,7 +14,7 @@
 ### extract_xml.py  
 功能：提取AndroidManifest.xml文件中的内容, 其中各组件中只提取export=true时的内容。  
 apk-name = {  
-        -- uses-permission:[name1, name2]  
+        >> uses-permission:[name1, name2]  
         * permission:[{name1: protectLevel1}, {name2: protectLevel2}]  
         * provider:[{name1: [permisson1, writePermission, readPermission]}, {name2:[...]}]  
         * receiver:[{name1: permisson1}, {name2:...}]  
