@@ -6,6 +6,11 @@
 3. 对比activity、receiver、provider组件中使用的权限是否声明或申请  
 4. 保存未声明的权限名及其包名至unclaim.txt文件中  
 
+环境要求：  
+1. java 1.8  
+2. apktool  
+3. python3  
+
 使用方法：  
 1. 将该代码和所有apk文件放在同一目录  
 2. python3 Analysis_perm.py  
