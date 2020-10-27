@@ -157,38 +157,44 @@ system_perm = [
     ]
 
 def unpackage():
+
+    dir = os.getcwd()
     # 遍历当前目录
-    fileNames = os.listdir("./")
-    for f in fileNames:
-        if f[-4:] == ".apk":
-            os.system("apktool d -f " + f) # apk反编译
+    for root, ds, fs in os.walk("./"):
+        for f in fs:
+            if f[-4:] == ".apk":
+                file_fullpath = os.path.join(root, f)
+                print(dir+"/../extract/")
+                os.system("mkdir -p "+ dir +"/../extract/" + f[:-4])  # 创建同名文件夹
+                os.system("apktool d " + file_fullpath + " -o "+ dir+"/../extract/" + f[:-4] + " -f")  # apk反编译
     # 删除空文件夹
     #os.system("find . -type d -empty -delete")
 
 #修改名称提取至manifest文件夹
-def rename_and_extract(filepath, desdir):
+def rename_and_extract(filepath):
+    desdir = os.getcwd() + "/manifest"
     #遍历当前目录
     files = os.listdir(filepath)
     for file in files:
         if (os.path.isdir(file)):
             os.chdir(file) # 进入该目录
-            if os.path.exists("AndroidManifest.xml"):
+            if os.path.exists("AndroidManifest.xml") and os.path.getsize("AndroidManifest.xml"):
                 os.system("cp AndroidManifest.xml " + file + ".xml" + " && mv " + file  + ".xml" + " " + desdir) # 复制并重命名该xml文件至manifest
             os.chdir("./..")
 
-def Analysis_perm():
+def Analysis_perm(path):
     permissions = {"uses-permission", "permission"}
     compents = {"activity", "provider", "receiver"}
-    results = {}
     all_per = []
     unclaim = []
 
-    files = os.listdir("./manifest")
+    files = os.listdir(path)
 
     for file in files :
         # 判断是不是xml文件
         if file[-4:] == ".xml" :
             file_path = os.path.join("./manifest",file)
+            print(file_path)
             domTree = parse(file_path)
             rootNode = domTree.documentElement
 
@@ -218,11 +224,21 @@ def Analysis_perm():
                     print(unclaim)
 
 if __name__ == '__main__':
+
+    extract_dir = "./../extract"
+
+    if not os.path.exists("./../extract"):
+        os.system("mkdir ./../extract")
+
     unpackage()
 
+    os.chdir(extract_dir)
+    print(os.getcwd())
     if not os.path.exists('manifest'):
         os.mkdir('manifest')
+    print(os.getcwd())
+    print("################ 提取AndroidManifest.xml完成###############")
+    rename_and_extract(extract_dir)
 
-    rename_and_extract("./", "./../manifest")
-
-    Analysis_perm()
+    Analysis_perm( extract_dir+"/manifest")
+    print("################ 分析AndroidManifest.xml完成###############")
